@@ -11,7 +11,7 @@ const person = (props) => {
     //inside here, React is doing things in the background which is converting to JSX
     return (
         <div className='Person'>
-            <p onClick={props.changePlaceholder}>I'm a React person named {props.name} and currently aged {props.age} years old!</p>
+            <p onClick={props.click}>I'm a React person named {props.name} and currently aged {props.age} years old!</p>
             <span>{props.children}</span>
             <input type="text" onChange={props.updateToChangeName} value={props.name}/>
         </div>
