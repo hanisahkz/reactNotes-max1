@@ -1,6 +1,9 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './App.css'; //this is importing the styling to be used by this component
-import Person from './Person/Person';
+// .. : means from this current location, go up one level
+// then find a folder called 'components'
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/cockpit/Cockpit';
 
 //remember that react passes data from Parent to Child. Notice how all the data are passed from the Parent
 //this is an App component that gets called in index.js
@@ -86,47 +89,29 @@ class App extends Component {
   };
 
   render() {
-    //the attribute value must be a string
-    //the attribute name follows javascript acceptable format. i.e. background-color is an invalid form
-    const customStyle = {
-        backgroundColor: 'white',
-        border: 'solid 1px gold',
-        padding: '5px',
-        cursor: 'pointer',
-        font: 'inherit'
-    };
-
     //each time the state updates, this will trigger React rendering
     let persons = null;
 
-    //here, persons will be assigned with HTML content now
-    //we introduce index as the 2nd argument to delete specific element from the list
+    //normally access 'this' through a class
+    // can only do directly: persons = <Person> provided that the content inside <Person>
+    //has already handled <div>
     if (this.state.isVisible) {
-        persons = (
-            <div>
-                {this.state.personsArray.map((personPlaceholder, index) => {
-                    return <Person
-                        name={personPlaceholder.name}
-                        age={personPlaceholder.age}
-                        click={() => this.deletePerson(index)}
-                        key={personPlaceholder.id}
-                        updateToChangeName={(event) => this.changeNameHandler(event, personPlaceholder.id)}
-                    />
-                    }
-                )}
-            </div>
-        );
+        persons = <Persons
+                    persons={this.state.personsArray}
+                    clicked={this.deletePerson}
+                    changed={this.changeNameHandler}/>;
     }
 
     //scoping. Within the 'return' , you have to use JSX. There's limitation on what you can do.
     return (
       <div className="App">
-        <h1>Hi, I'm a React app</h1>
-        <button style={customStyle} onClick={this.toggleThisBlock}>Switch here!</button>
+        <Cockpit
+            showPersons={this.state.isVisible}
+            persons={this.state.personsArray}
+            clicked={this.toggleThisBlock}/>
         {persons}
       </div>
     );
-    //   return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Harlow! I\'m sam' ));
   }
 }
 
